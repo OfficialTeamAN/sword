@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#100808">
+<title>Sword — every drop counts</title>
+<meta name="description" content="SWORD — cartoon carnage leaderboard. $1,000 monthly race, top 5 paid. Climb the board, join the horde.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23d92b1f'/%3E%3Cpath d='M16 5 L18 9 L18 20 L16 23 L14 20 L14 9 Z' fill='%23f8f1e0'/%3E%3Cpath d='M9 21 H23' stroke='%23f8f1e0' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three.module.js",
+    "three/addons/": "./vendor/addons/"
+  }
+}
+</script>
+</head>
+<body>
+
+  <!-- hand-drawn wobble filters for the brush look -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="rough" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="7" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5"/>
+      </filter>
+      <filter id="roughBig" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="4" seed="3" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="9"/>
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Floating navbar — painted into existence by the blood splat -->
+  <div class="nav-wrap">
+    <nav class="nav" id="nav" aria-label="Main">
+      <svg class="nav-draw" id="navDraw" aria-hidden="true"><path id="navDrawPath" pathLength="1" d=""/></svg>
+      <span class="nav-logo" id="navLogo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#f8f1e0" stroke-width="1.9" stroke-linecap="round">
+          <path d="M12 2.5 L13.7 5.2 L13.7 15.5 L12 17.4 L10.3 15.5 L10.3 5.2 Z" fill="#f8f1e0" stroke="none"/>
+          <path d="M6.8 16.4 H17.2" />
+          <path d="M12 17.4 V20.4" />
+          <circle cx="12" cy="21.7" r="1.2" fill="#f8f1e0" stroke="none"/>
+        </svg>
+      </span>
+      <span class="nav-word" aria-label="Sword"><span class="wl">S</span><span class="wl">w</span><span class="wl">o</span><span class="wl">r</span><span class="wl">d</span></span>
+      <span class="nav-dot" aria-hidden="true"></span>
+      <a class="nav-link active" href="#leaderboard">Leaderboard</a>
+      <a class="nav-link" href="#rewards">Extras</a>
+      <a class="nav-link" href="#socials">Socials</a>
+    </nav>
+  </div>
+
+
+  <!-- Page beneath the loader -->
+  <main class="page">
+
+    <header class="hero" id="hero">
+      <div class="emblem" id="emblem" aria-hidden="true">
+        <svg class="enso" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="80" fill="none" stroke="#c1281b" stroke-width="15"
+            stroke-linecap="round" stroke-dasharray="462 80" transform="rotate(-78 100 100)"
+            filter="url(#roughBig)" opacity="0.92"/>
+        </svg>
+        <svg class="hero-sword" id="heroSword" viewBox="0 0 120 300">
+          <g filter="url(#rough)">
+            <!-- pommel -->
+            <circle cx="60" cy="30" r="13" fill="#e8b431" stroke="#241a12" stroke-width="3.5"/>
+            <circle cx="60" cy="30" r="5.5" fill="#d92b1f" stroke="#241a12" stroke-width="2.5"/>
+            <!-- grip -->
+            <rect x="49" y="42" width="22" height="44" rx="9" fill="#7a4526" stroke="#241a12" stroke-width="3.5"/>
+            <path d="M50 52 L70 58 M50 63 L70 69 M50 74 L70 80" stroke="#e8b431" stroke-width="3" stroke-linecap="round"/>
+            <!-- crossguard -->
+            <rect x="14" y="86" width="92" height="15" rx="7.5" fill="#e8b431" stroke="#241a12" stroke-width="3.5"/>
+            <circle cx="14" cy="93.5" r="8" fill="#e8b431" stroke="#241a12" stroke-width="3.5"/>
+            <circle cx="106" cy="93.5" r="8" fill="#e8b431" stroke="#241a12" stroke-width="3.5"/>
+            <!-- blade -->
+            <path d="M46 100 Q43 110 44 140 L53 262 Q56 284 60 294 Q64 284 67 262 L76 140 Q77 110 74 100 Z"
+                  fill="#e6edf3" stroke="#241a12" stroke-width="3.5"/>
+            <path d="M60 112 L60 250" stroke="#9fb0bc" stroke-width="4" stroke-linecap="round"/>
+            <path d="M52 112 L55 244" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+            <!-- drop of blood hanging off the tip -->
+            <path d="M60 291 q-5.5 9 0 15.5 q5.5 -6.5 0 -15.5" fill="#d92b1f" stroke="#241a12" stroke-width="2.2"/>
+          </g>
+        </svg>
+        <span class="tip-drip"></span>
+      </div>
+
+      <p class="hero-tag">every drop counts.</p>
+
+      <section class="board" id="leaderboard" aria-label="Leaderboard">
+        <div class="board-head">
+          <div class="board-head-l">
+            <h2 class="board-title">Leaderboard</h2>
+            <span class="board-sub">gamba &middot; code <b>SWORD</b></span>
+          </div>
+          <div class="board-head-r">
+            <span class="live-chip" id="liveChip"><i></i>LIVE</span>
+            <a class="race-chip" href="https://swordvip.com/" target="_blank" rel="noopener">$1,000 pool &middot; top 3 paid</a>
+          </div>
+        </div>
+        <div class="board-countdown">
+          <span class="board-timer" id="boardTimer"></span>
+        </div>
+
+        <!-- top five, on pedestals, side by side -->
+        <div class="podium-wrap">
+          <div class="podium" id="podium" aria-label="Top five"></div>
+          <div class="podium-floor" aria-hidden="true">
+            <svg viewBox="0 0 700 12" preserveAspectRatio="none">
+              <path d="M4 7 Q 180 2 350 6 T 696 5" fill="none" stroke="#241a12" stroke-width="3.4"
+                    stroke-linecap="round" filter="url(#rough)"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="pack">
+          <span class="pack-head">the chasing pack</span>
+          <div class="board-rows" id="boardRows"></div>
+        </div>
+
+        <div class="board-foot">
+          wager on <a href="https://gamba.com/?c=Sword" target="_blank" rel="noopener"><b>gamba</b> with code <b>SWORD</b></a> to climb —
+          <a href="https://gamba.com/promotions/exclusive-leaderboards/17491" target="_blank" rel="noopener">full race ↗</a>
+        </div>
+      </section>
+
+      <aside class="rules">
+        <h3 class="rules-title">the fine print</h3>
+        <ul>
+          <li>house edge <b>0% – 1.1%</b> → <b>10%</b> of your wager counts toward the board</li>
+          <li>house edge <b>1.11% – 3.1%</b> → <b>50%</b> counts</li>
+          <li>house edge <b>above 3.11%</b> → <b>100%</b> counts</li>
+          <li>lossback claims are confirmed by Sword — <b>2-week cooldown</b> on each claim</li>
+        </ul>
+      </aside>
+    </header>
+
+    <section class="rewards reveal" id="rewards">
+      <span class="sec-eyebrow">the armoury</span>
+      <h2 class="sec-title">Rack up the extras</h2>
+      <p class="sec-sub">the board is one blade. code <b>SWORD</b> hands you the whole rack.</p>
+
+      <div class="perk-grid">
+
+        <article class="perk perk-hero">
+          <span class="perk-tag">flagship</span>
+          <span class="perk-fig">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <g filter="url(#rough)" fill="none" stroke="#241a12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 5 L29 15 L40 17 L32 25 L34 37 L24 31 L14 37 L16 25 L8 17 L19 15 Z" fill="#e8b431"/>
+                <path d="M24 12 L24 26" stroke="#9c1a0e" stroke-width="2.2"/>
+              </g>
+            </svg>
+          </span>
+          <span class="perk-num">95<i>%</i></span>
+          <h3 class="perk-title">commission, straight back</h3>
+          <p class="perk-desc">near everything the house pays me gets pushed back to the people wagering. Sword keeps the scraps.</p>
+
+          <div class="split" aria-label="95% to players, 5% kept">
+            <span class="split-bar">
+              <i class="split-you" style="--w:95%"><b>95%</b></i>
+              <i class="split-me" style="--w:5%"></i>
+            </span>
+            <span class="split-keys">
+              <span><em class="k-you"></em>back to players</span>
+              <span><em class="k-me"></em>kept by Sword</span>
+            </span>
+          </div>
+
+          <ul class="perk-list">
+            <li>leaderboards, bonuses and lossback all come out of it</li>
+            <li>no tier gate — every player under the code counts</li>
+          </ul>
+
+          <span class="perk-note">paid out to players, not pocketed</span>
+        </article>
+
+        <article class="perk">
+          <span class="perk-tag">stacked</span>
+          <span class="perk-fig">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <g filter="url(#rough)" fill="none" stroke="#241a12" stroke-width="2.6" stroke-linecap="round">
+                <rect x="8" y="26" width="32" height="14" rx="3" fill="#f2603f"/>
+                <rect x="12" y="14" width="24" height="12" rx="3" fill="#d92b1f"/>
+                <path d="M24 8 L24 13 M18 10 L20.5 13.5 M30 10 L27.5 13.5" stroke="#9c1a0e" stroke-width="2.4"/>
+              </g>
+            </svg>
+          </span>
+          <span class="perk-num">2<i>×</i></span>
+          <h3 class="perk-title">double bonus</h3>
+          <p class="perk-desc">a <b>monthly bonus</b> and a <b>rank-up bonus</b> — two drips, one code.</p>
+          <span class="perk-note">both, not either</span>
+        </article>
+
+        <article class="perk">
+          <span class="perk-tag">safety net</span>
+          <span class="perk-fig">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <g filter="url(#rough)" fill="none" stroke="#241a12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 6 L39 11 V25 Q39 36 24 42 Q9 36 9 25 V11 Z" fill="#e6edf3"/>
+                <path d="M17 24 L22 29 L32 18" stroke="#d92b1f" stroke-width="3.4"/>
+              </g>
+            </svg>
+          </span>
+          <span class="perk-num">10<i>%</i></span>
+          <h3 class="perk-title">lossback</h3>
+          <p class="perk-desc">rough month? claim up to <b>10%</b> of it back. confirmed by Sword.</p>
+          <span class="perk-note">2-week cooldown per claim</span>
+        </article>
+
+        <article class="perk">
+          <span class="perk-tag">grind</span>
+          <span class="perk-fig">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <g filter="url(#rough)" fill="none" stroke="#241a12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 40 L14 30 L21 34 L28 20 L35 24 L42 9" stroke="#9c1a0e" stroke-width="3"/>
+                <circle cx="14" cy="30" r="3.4" fill="#f8f1e0"/>
+                <circle cx="28" cy="20" r="3.4" fill="#f8f1e0"/>
+                <circle cx="42" cy="9" r="4.2" fill="#e8b431"/>
+              </g>
+            </svg>
+          </span>
+          <span class="perk-num">◈</span>
+          <h3 class="perk-title">wager milestones</h3>
+          <p class="perk-desc">every mark you pass pays. hit the notch, collect the steel.</p>
+          <span class="perk-note">no ceiling posted</span>
+        </article>
+
+        <article class="perk">
+          <span class="perk-tag">members only</span>
+          <span class="perk-fig">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <g filter="url(#rough)" fill="none" stroke="#241a12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="7" y="18" width="34" height="22" rx="3" fill="#f2603f"/>
+                <rect x="5" y="11" width="38" height="8" rx="3" fill="#d92b1f"/>
+                <path d="M24 11 V40" stroke="#241a12" stroke-width="2.4"/>
+                <path d="M24 11 Q17 4 13 8 Q10 11 24 11 Q38 11 35 8 Q31 4 24 11" fill="#e8b431"/>
+              </g>
+            </svg>
+          </span>
+          <span class="perk-num">✦</span>
+          <h3 class="perk-title">giveaways &amp; drops</h3>
+          <p class="perk-desc">exclusive rewards called in the discord and on stream first.</p>
+          <span class="perk-note">be there or miss it</span>
+        </article>
+
+        <article class="perk">
+          <span class="perk-tag">the rules</span>
+          <span class="perk-fig">
+            <svg viewBox="0 0 48 48" aria-hidden="true">
+              <g filter="url(#rough)" fill="none" stroke="#241a12" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 6 H37 V42 H11 Z" fill="#f8f1e0"/>
+                <path d="M17 15 H31 M17 22 H31 M17 29 H26" stroke="#9c1a0e" stroke-width="2.4"/>
+              </g>
+            </svg>
+          </span>
+          <span class="perk-num">1<i>×</i></span>
+          <h3 class="perk-title">one code, all of it</h3>
+          <p class="perk-desc">sign up under <b>SWORD</b> once and every extra on this page unlocks.</p>
+          <span class="perk-note">no tiers to buy</span>
+        </article>
+
+      </div>
+
+      <a class="cta-btn" href="https://gamba.com/?c=Sword" target="_blank" rel="noopener">Sign up on Gamba — code SWORD</a>
+    </section>
+
+    <footer class="socials reveal" id="socials">
+      <h2 class="sec-title">Join the horde</h2>
+      <p class="sec-sub">streams, drops and giveaway calls — first blood goes to followers.</p>
+      <div class="soc-row">
+        <a class="soc" href="https://kick.com/sword" target="_blank" rel="noopener" aria-label="Kick — kick.com/sword">
+          <svg viewBox="0 0 24 24" width="34" height="34">
+            <path d="M7 3.5 V20.5 M7 12 L16.5 3.5 M8.5 11 L17 20.5" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+          <span class="soc-lbl">kick</span>
+        </a>
+        <a class="soc" href="https://x.com/swordonkick" target="_blank" rel="noopener" aria-label="X — @swordonkick">
+          <svg viewBox="0 0 24 24" width="32" height="32"><path d="M4.5 3.5 L19.5 20.5 M19.5 3.5 L4.5 20.5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>
+          <span class="soc-lbl">@swordonkick</span>
+        </a>
+        <a class="soc" href="https://discord.gg/358kqc5p2X" target="_blank" rel="noopener" aria-label="Discord — join the server">
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor" aria-hidden="true">
+            <path d="M19.6 5.6A16 16 0 0 0 15.7 4.4l-.3.6a12 12 0 0 1 3.4 1.6 11.4 11.4 0 0 0-8.7-.5 12 12 0 0 1 1.3-.5l-.3-.6a16 16 0 0 0-3.9 1.2C3.9 9 3.2 12.6 3.5 16.2a15.9 15.9 0 0 0 4.8 2.4l.6-1a11 11 0 0 1-1.7-.8l.4-.3a11.4 11.4 0 0 0 9 0l.4.3a11 11 0 0 1-1.7.8l.6 1a15.9 15.9 0 0 0 4.8-2.4c.4-4.2-.6-7.8-2.6-10.6zM9.4 14.2c-.9 0-1.7-.9-1.7-1.9s.7-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9zm5.2 0c-.9 0-1.7-.9-1.7-1.9s.7-1.9 1.7-1.9 1.7.9 1.7 1.9-.7 1.9-1.7 1.9z"/>
+          </svg>
+          <span class="soc-lbl">discord</span>
+        </a>
+      </div>
+      <p class="foot">SWORD © — sharpened daily.</p>
+    </footer>
+
+  </main>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

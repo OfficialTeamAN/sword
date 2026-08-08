@@ -1,0 +1,17 @@
+{
+  "name": "sword-leaderboard",
+  "version": "1.0.0",
+  "description": "SWORD — ink-and-blood cartoon loading cinematic + Gamba $1k leaderboard site",
+  "private": true,
+  "scripts": {
+    "build": "node scrape-lb.mjs || echo 'Scrape bypassed'",
+    "start": "node serve.js 8123",
+    "scrape": "node scrape-lb.mjs",
+    "snap": "node snap.mjs",
+    "snap:flight": "node snap-flight.mjs",
+    "snap:mobile": "node snap-mobile.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.5.0"
+  }
+}

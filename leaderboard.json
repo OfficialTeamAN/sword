@@ -1,0 +1,84 @@
+{
+  "name": "Sword's $1,000 LB",
+  "status": "active",
+  "pool": 1001.16,
+  "currency": "USDT",
+  "start": "2026-08-07 00:00:00",
+  "end": "2026-09-07 23:59:59",
+  "url": "https://gamba.com/promotions/exclusive-leaderboards/17491",
+  "fetchedAt": "2026-08-08T10:24:40.901Z",
+  "rows": [
+    {
+      "position": 1,
+      "name": "beconox",
+      "wagered": 78.01,
+      "prize": 400.46
+    },
+    {
+      "position": 2,
+      "name": "Naksu67",
+      "wagered": 51.05,
+      "prize": 250.29
+    },
+    {
+      "position": 3,
+      "name": "Newbie78",
+      "wagered": 51,
+      "prize": 200.23
+    },
+    {
+      "position": 4,
+      "name": "Mohitkabhai",
+      "wagered": 50.66,
+      "prize": 100.12
+    },
+    {
+      "position": 5,
+      "name": "Bigate",
+      "wagered": 50.59,
+      "prize": 50.06
+    },
+    {
+      "position": 6,
+      "name": "Mohitonbreak",
+      "wagered": 50.57,
+      "prize": 0
+    },
+    {
+      "position": 7,
+      "name": "NarutoBet",
+      "wagered": 50.28,
+      "prize": 0
+    },
+    {
+      "position": 8,
+      "name": "Yailomc",
+      "wagered": 50,
+      "prize": 0
+    },
+    {
+      "position": 9,
+      "name": "Darkszn",
+      "wagered": 1.78,
+      "prize": 0
+    },
+    {
+      "position": 10,
+      "name": "uk07cash",
+      "wagered": 0.01,
+      "prize": 0
+    },
+    {
+      "position": 11,
+      "name": "Adammakethemf",
+      "wagered": 0,
+      "prize": 0
+    },
+    {
+      "position": 12,
+      "name": "Ms2solidd",
+      "wagered": 0,
+      "prize": 0
+    }
+  ]
+}
