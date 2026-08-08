@@ -148,7 +148,7 @@ async function loadLeaderboard() {
   } catch { /* file:// or missing json — fallback rides */ }
   renderBoard(data.rows);
   const chip = qs('.race-chip');
-  if (chip && data.pool) chip.textContent = `$${Math.round(data.pool).toLocaleString('en-US')} pool · top 3 paid`;
+  if (chip && data.pool) chip.textContent = `$${Math.min(1000, Math.round(data.pool)).toLocaleString('en-US')} pool · top 5 paid`;
   seasonEnd = new Date(String(data.end).replace(' ', 'T') + 'Z').getTime();
   tickTimer();
   setInterval(tickTimer, 1000);

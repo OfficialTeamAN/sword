@@ -1,7 +1,7 @@
 {
   "name": "Sword's $1,000 LB",
   "status": "active",
-  "pool": 1001.16,
+  "pool": 1000,
   "currency": "USDT",
   "start": "2026-08-07 00:00:00",
   "end": "2026-09-07 23:59:59",
