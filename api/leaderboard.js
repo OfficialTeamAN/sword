@@ -2,7 +2,7 @@ const RACE_ID = 17491;
 const BASE = 'https://gamba.com';
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)';
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   try {
     const csrfRes = await fetch(`${BASE}/_api/auth/csrf-token`, {
       headers: { 'User-Agent': UA },
@@ -69,4 +69,4 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     return res.status(500).json({ error: err.message || 'Failed to fetch leaderboard' });
   }
-}
+};
