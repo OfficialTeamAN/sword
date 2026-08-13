@@ -92,8 +92,9 @@ function podiumCard(r, slot) {
 }
 
 function renderBoard(rows) {
-  const top = rows.slice(0, 3);
-  const rest = rows.slice(3);
+  const top10 = (rows || []).slice(0, 10);
+  const top = top10.slice(0, 3);
+  const rest = top10.slice(3);
 
   // visual order for top-3 podium: 2 · 1 · 3 — tallest in the middle
   const ORDER = [2, 1, 3];

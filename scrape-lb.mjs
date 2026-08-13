@@ -45,6 +45,7 @@ async function main() {
   const rows = (race.competitors || [])
     .slice()
     .sort((a, b) => a.position - b.position)
+    .slice(0, 10)
     .map(c => ({
       position: c.position,
       name: c.display_name,
